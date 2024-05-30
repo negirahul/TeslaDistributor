@@ -122,75 +122,77 @@ function Library({ userDetails }) {
           </div>
         </div>
 
-        {
-        !showMedia ? 
+        <div className="mainbody" style={{height: '75vh'}}>
+          {
+          !showMedia ? 
 
-          !librarydata ? ''
-          : librarydata.length === 0 ?
-            <div className="empty-box shadow my-4 text-center">
-              <img src={require('../img/empty-box.png')} alt="" />
-              <h3>No Documents In Library</h3>
-              <p>We will upload some documents very soon.</p>
+            !librarydata ? ''
+            : librarydata.length === 0 ?
+              <div className="empty-box shadow my-4 text-center">
+                <img src={require('../img/empty-box.png')} alt="" />
+                <h3>No Documents In Library</h3>
+                <p>We will upload some documents very soon.</p>
+              </div>
+            : 
+            <div className="row">
+              {librarydata.map((item) =>
+                searchValue.length == 0 ? 
+                <div className="col-6">
+                  <div className="shadow my-4 p-4 bg-white rounded">
+                    <div className="text-center" onClick={() => fetchMedia(item.folder_name, item.media)}>
+                        <Icon.FolderFill fontSize={50}/>
+                        <hr/>
+                        <h6>{item.folder_name}</h6>
+                    </div>
+                  </div>
+                </div>
+                : (item.folder_name.includes(searchValue)) ? 
+                <div className="col-6">
+                  <div className="shadow my-4 p-4 bg-white rounded">
+                    <div className="text-center" onClick={() => fetchMedia(item.folder_name, item.media)}>
+                        <Icon.FolderFill fontSize={50}/>
+                        <hr/>
+                        <h6>{item.folder_name}</h6>
+                    </div>
+                  </div>
+                </div>
+                : ''
+              )}
             </div>
+
           : 
           <div className="row">
-            {librarydata.map((item) =>
-              searchValue.length == 0 ? 
-              <div className="col-6">
-                <div className="shadow my-4 p-4 bg-white rounded">
-                  <div className="text-center" onClick={() => fetchMedia(item.folder_name, item.media)}>
-                      <Icon.FolderFill fontSize={50}/>
-                      <hr/>
-                      <h6>{item.folder_name}</h6>
+            {media.map((item) => 
+            <div className="col-6">
+              <div className="shadow my-4 p-4 bg-white rounded">
+                <div className="text-center">
+                  <div className="mb-2">
+                  {item.media_type=='AUDIO' ? <Icon.MicFill fontSize={50}/> 
+                  : item.media_type=='VIDEO' ? <Icon.CameraReelsFill fontSize={50}/> 
+                  : item.media_type=='IMAGE' ? <Icon.Image fontSize={50}/> 
+                  : item.media_type=='PDF' ? <Icon.FilePdfFill fontSize={50}/> 
+                  : '' }
                   </div>
-                </div>
-              </div>
-              : (item.folder_name.includes(searchValue)) ? 
-              <div className="col-6">
-                <div className="shadow my-4 p-4 bg-white rounded">
-                  <div className="text-center" onClick={() => fetchMedia(item.folder_name, item.media)}>
-                      <Icon.FolderFill fontSize={50}/>
-                      <hr/>
-                      <h6>{item.folder_name}</h6>
+                  <h6>{item.media_heading}</h6>
+                  <hr/>
+                  <div className="row">
+                    {item.media_type == 'PDF' ? 
+                    <div className="col text-center">
+                      <Icon.Download onClick={() => downloadUrl(process.env.REACT_APP_ADMIN_URL + '../' + item.path + item.media, item.media_heading)} fontSize={20}/>
+                    </div>
+                    :
+                    <div className="col text-center">
+                      <Icon.EyeFill onClick={() => handlePopupMedia(item) } fontSize={20}/>
+                    </div>
+                    }
                   </div>
-                </div>
-              </div>
-              : ''
-            )}
-          </div>
-
-        : 
-        <div className="row">
-          {media.map((item) => 
-          <div className="col-6">
-            <div className="shadow my-4 p-4 bg-white rounded">
-              <div className="text-center">
-                <div className="mb-2">
-                {item.media_type=='AUDIO' ? <Icon.MicFill fontSize={50}/> 
-                : item.media_type=='VIDEO' ? <Icon.CameraReelsFill fontSize={50}/> 
-                : item.media_type=='IMAGE' ? <Icon.Image fontSize={50}/> 
-                : item.media_type=='PDF' ? <Icon.FilePdfFill fontSize={50}/> 
-                : '' }
-                </div>
-                <h6>{item.media_heading}</h6>
-                <hr/>
-                <div className="row">
-                  {item.media_type == 'PDF' ? 
-                  <div className="col text-center">
-                    <Icon.Download onClick={() => downloadUrl(process.env.REACT_APP_ADMIN_URL + '../' + item.path + item.media, item.media_heading)} fontSize={20}/>
-                  </div>
-                  :
-                  <div className="col text-center">
-                    <Icon.EyeFill onClick={() => handlePopupMedia(item) } fontSize={20}/>
-                  </div>
-                  }
                 </div>
               </div>
             </div>
+            )}
           </div>
-          )}
+          }
         </div>
-        }
 
       </div>
 

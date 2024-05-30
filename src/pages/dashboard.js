@@ -19,7 +19,7 @@ function Dashboard({ userDetails }) {
   const [cookies, setCookie] = useCookies(['user']);
   useEffect(() => {
     if (cookies.userId === undefined || cookies.userId === '') {
-      navigate("/login");
+      navigate("/login"); 
     }
   }, [navigate])
 

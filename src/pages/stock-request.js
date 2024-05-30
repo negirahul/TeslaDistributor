@@ -196,79 +196,84 @@ function StockRequest({ userDetails }) {
         <div className="mt-4">
 
           <Tabs defaultActiveKey="home" id="uncontrolled-tab-example" className="mb-3" fill>
+
             <Tab eventKey="home" title="Punched Order">
-              <div className="bg-white shadow tab-body-edit">
-                { !punchDetails ? '' 
-                  : punchDetails.length === 0 ? 
-                    <div className="empty-box shadow my-4 text-center">
-                      <img src={require('../img/empty-box.png')} alt="" />
-                      <h3>No Orders</h3>
-                      <p>No record available in your order history.</p>
-                    </div>
-                  : 
-                    (punchDetails.map((item, index) => 
-                      <div>
-                        <div className="shop-item d-flex align-items-center">
-                          <div className="cart-text-no w25">{index + 1}.</div>
-                          <div className="cart-text w50">
-                            Dealer Name: {item.dealer.name} <br />Product: {item.product} | Qty: {item.qty} 
-                            <span>
-                              {getFormattedDate(item.order.ddate,'day_month_year')} | 
-                              Order {{'0':' Pending', '1':' Accepted', '2':' Rejected'}[item.order.order_status]}
-                            </span>
-                          </div>
-                            {{
-                              '0':<div className="cart-icon w25 text-warning"><Icon.QuestionCircle /></div>, 
-                              '1':<div className="cart-icon w25 text-success"><Icon.Check2Circle /></div>, 
-                              '2':<div className="cart-icon w25 text-danger"><Icon.XCircle /></div>}
-                              [item.order.order_status]}
-                        </div>
-                        <div className="w-100"><button type="button" className="cart-item-btn cart-item-forn w-100" onClick={() => handleShow2(index,'punch')}>View Details / Approved Bill</button>
-                        </div>
-                        <hr/>
+              <div className="mainbody">
+                <div className="bg-white shadow tab-body-edit">
+                  { !punchDetails ? '' 
+                    : punchDetails.length === 0 ? 
+                      <div className="empty-box shadow my-4 text-center">
+                        <img src={require('../img/empty-box.png')} alt="" />
+                        <h3>No Orders</h3>
+                        <p>No record available in your order history.</p>
                       </div>
-                    ))
-                }
+                    : 
+                      (punchDetails.map((item, index) => 
+                        <div>
+                          <div className="shop-item d-flex align-items-center">
+                            <div className="cart-text-no w25">{index + 1}.</div>
+                            <div className="cart-text w50">
+                              Dealer Name: {item.dealer.name} <br />Product: {item.product} | Qty: {item.qty} 
+                              <span>
+                                {getFormattedDate(item.order.ddate,'day_month_year')} | 
+                                Order {{'0':' Pending', '1':' Accepted', '2':' Rejected'}[item.order.order_status]}
+                              </span>
+                            </div>
+                              {{
+                                '0':<div className="cart-icon w25 text-warning"><Icon.QuestionCircle /></div>, 
+                                '1':<div className="cart-icon w25 text-success"><Icon.Check2Circle /></div>, 
+                                '2':<div className="cart-icon w25 text-danger"><Icon.XCircle /></div>}
+                                [item.order.order_status]}
+                          </div>
+                          <div className="w-100"><button type="button" className="cart-item-btn cart-item-forn w-100" onClick={() => handleShow2(index,'punch')}>View Details / Approved Bill</button>
+                          </div>
+                          <hr/>
+                        </div>
+                      ))
+                  }
+                </div>
               </div>
             </Tab>
 
             <Tab eventKey="Requested" title="Requested Order">
-              <div className="bg-white shadow tab-body-edit">
-                { !placeDetails ? '' 
-                  : placeDetails.length === 0 ? 
-                    <div className="empty-box shadow my-4 text-center">
-                      <img src={require('../img/empty-box.png')} alt="" />
-                      <h3>No Orders</h3>
-                      <p>No record available in your order history.</p>
-                    </div>
-                  : 
-                    (placeDetails.map((item, index) => 
-                      <div>
-                        <div className="shop-item d-flex align-items-center">
-                          <div className="cart-text-no w25">{index + 1}.</div>
-                          <div className="cart-text w50">
-                            Dealer Name: {item.dealer.name} <br />Product: {item.product} | Qty: {item.qty} 
-                            <span>
-                              {getFormattedDate(item.order.ddate,'day_month_year')} | 
-                              Order {{'0':' Pending', '1':' Accepted', '2':' Rejected', '3':' Dispatched', '4':' Delivered', '5':' Received'}[item.order.order_status]}
-                            </span>
-                          </div>
-                            {{
-                              '0':<div className="cart-icon w25 text-warning"><Icon.QuestionCircle /></div>, 
-                              '1':<div className="cart-icon w25 text-success"><Icon.Check2Circle /></div>, 
-                              '2':<div className="cart-icon w25 text-danger"><Icon.XCircle /></div>,
-                              '3':<div className="cart-icon w25 text-success"><Icon.Check2Circle /></div>,
-                              '4':<div className="cart-icon w25 text-success"><Icon.Check2Circle /></div>,
-                              '5':<div className="cart-icon w25 text-success"><Icon.Check2Circle /></div>
-                            }
-                            [item.order.order_status]}
-                        </div>
-                        <div className="w-100"><button type="button" className="cart-item-btn cart-item-forn w-100" onClick={() => handleShow2(index,'place')}>View Details / Approved Order</button>
-                        </div>
-                        <hr/>
+              <div className="mainbody">
+                <div className="bg-white shadow tab-body-edit">
+                  { !placeDetails ? '' 
+                    : placeDetails.length === 0 ? 
+                      <div className="empty-box shadow my-4 text-center">
+                        <img src={require('../img/empty-box.png')} alt="" />
+                        <h3>No Orders</h3>
+                        <p>No record available in your order history.</p>
                       </div>
-                    ))
-                }
+                    : 
+                      (placeDetails.map((item, index) => 
+                        <div>
+                          <div className="shop-item d-flex align-items-center">
+                            <div className="cart-text-no w25">{index + 1}.</div>
+                            <div className="cart-text w50">
+                              Dealer Name: {item.dealer.name} <br />Product: {item.product} | Qty: {item.qty} 
+                              <span>
+                                {getFormattedDate(item.order.ddate,'day_month_year')} | 
+                                Order {{'0':' Pending', '1':' Accepted', '2':' Rejected', '3':' Dispatched', '4':' Delivered', '5':' Received'}[item.order.order_status]}
+                              </span>
+                            </div>
+                              {{
+                                '0':<div className="cart-icon w25 text-warning"><Icon.QuestionCircle /></div>, 
+                                '1':<div className="cart-icon w25 text-success"><Icon.Check2Circle /></div>, 
+                                '2':<div className="cart-icon w25 text-danger"><Icon.XCircle /></div>,
+                                '3':<div className="cart-icon w25 text-success"><Icon.Check2Circle /></div>,
+                                '4':<div className="cart-icon w25 text-success"><Icon.Check2Circle /></div>,
+                                '5':<div className="cart-icon w25 text-success"><Icon.Check2Circle /></div>
+                              }
+                              [item.order.order_status]}
+                          </div>
+                          <div className="w-100"><button type="button" className="cart-item-btn cart-item-forn w-100" onClick={() => handleShow2(index,'place')}>View Details / Approved Order</button>
+                          </div>
+                          <hr/>
+                        </div>
+                      ))
+                  }
+                </div>
               </div>
             </Tab>
           </Tabs>

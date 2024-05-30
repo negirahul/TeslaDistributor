@@ -26,7 +26,7 @@ function Offers({ userDetails }) {
       <HeaderBack />
 
       <div className="container">
-
+        <div className="mainbody" style={{height: '90vh'}}>
         {!offer ? '' 
           : offer.length === 0 ? 
             <div className="empty-box shadow my-4 text-center">
@@ -47,7 +47,7 @@ function Offers({ userDetails }) {
           <img src={require('../img/automotive-02-1.jpg')} className="w-100 my-3" alt="" />
           <img src={require('../img/automotive-02.jpg')} className="w-100 my-3" alt="" />
         </div> */}
-
+        </div>
       </div>
 
     </div>
