@@ -31,9 +31,12 @@ function Register() {
 
   const [inputs, setInputs] = useState([]);
   const registerChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
+    var name = event.target.name;
+    var value = event.target.value;
     console.log(value);
+    if(name == "lubricant"){  if(!event.target.checked) value = "";   }
+    if(name == "battery"){  if(!event.target.checked) value = "";   }
+    if(name == "spare_part"){  if(!event.target.checked) value = "";   }
     setInputs(values => ({ ...values, [name]: value }));
     if (name == 'state') {
       fetchCityData(value)
@@ -41,6 +44,7 @@ function Register() {
   }
 
   const [showOtp, setShowOtp] = useState(false);
+  const [otpVisible, setOtpVisible] = useState(false);
   const verifyNumber = () => {
     console.log(inputs);
     if (inputs === undefined) { notify("alert", "Please Enter Your Phone number"); return; }
@@ -52,6 +56,7 @@ function Register() {
       if (data.statusCode === 200) {
         setInputs(values => ({ ...values, generated_otp: data.otp }));
         setShowOtp(true);
+        setOtpVisible(data.otpVisible)
       } else {
         console.log(data.msg);
         notify("alert", data.msg);
@@ -65,12 +70,17 @@ function Register() {
     if (inputs.name === undefined && inputs.name === '') { notify("alert", "Please Enter Your Name"); return; }
     if (inputs.mobile_number === undefined && inputs.mobile_number === '') { notify("alert", "Please Enter Your Phone number"); return; }
     if (inputs.mobile_number.length !== 10) { notify("alert", "Please Enter Valid Phone number"); return; }
+    if (inputs.generated_otp != inputs.entered_otp) { notify("alert", "Please Enter Correct OTP"); return; }
     if (inputs.email_address === undefined && inputs.email_address === '') { notify("alert", "Please Enter Your Phone number"); return; }
     if (inputs.entered_otp === undefined && inputs.entered_otp === '') { notify("alert", "Please Enter OTP"); return; }
     if (inputs.state === undefined && inputs.state === '') { notify("alert", "Please Select Your State"); return; }
     if (inputs.city === undefined && inputs.city === '') { notify("alert", "Please Select Your City"); return; }
-    if (inputs.password === undefined && inputs.password === '') { notify("alert", "Please Select Your Password"); return; }
-    if (inputs.generated_otp != inputs.entered_otp) { notify("alert", "Please Enter Correct OTP"); return; }
+    if (inputs.pin_code === undefined && inputs.pin_code === ''){  notify("alert","Please Enter Pincode");return; }
+    // if (inputs.password === undefined && inputs.password === '') { notify("alert", "Please Select Your Password"); return; }
+    if((inputs.lubricant === undefined && inputs.battery === undefined && inputs.lubricant === undefined) 
+      || (inputs.lubricant == "" && inputs.battery === "" && inputs.spare_part === "")){   
+      notify("alert","Please select atleast one category");return;  
+    }
 
     axios.post(process.env.REACT_APP_ADMIN_URL + 'register.php', { inputs, user_type: 3 }).then(function (response) {
       console.log(response.data);
@@ -146,18 +156,18 @@ function Register() {
                 </div>
 
                 {showOtp ?
-                  <div>
-                    <div className="mb-2">
-                      <label htmlFor="entered_otp" className="form-label">Enter OTP <span className="text-danger">{inputs.generated_otp}</span></label>
+                  <div className="row">
+                    <div className="col-12 mb-2">
+                      <label htmlFor="entered_otp" className="form-label">Enter OTP <span className="text-danger">{otpVisible==true ? inputs.generated_otp : ''}</span></label>
                       <input type="number" className="form-control" name="entered_otp" id="entered_otp" onChange={registerChange} />
                     </div>
 
-                    <div className="mb-2">
+                    <div className="col-12 mb-2">
                       <label htmlFor="email_address" className="form-label">Email Address</label>
                       <input type="text" className="form-control" name="email_address" id="email_address" onChange={registerChange} />
                     </div>
 
-                    <div className="mb-2">
+                    <div className="col-6 mb-2">
                       <label htmlFor="state" className="form-label">State</label>
                       <select className="form-control" name="state" id="state" onChange={registerChange}>
                         <option>--- Select State ---</option>
@@ -172,7 +182,7 @@ function Register() {
                       </select>
                     </div>
 
-                    <div className="mb-2">
+                    <div className="col-6 mb-2">
                       <label htmlFor="city" className="form-label">City</label>
                       <select className="form-control" name="city" id="city" onChange={registerChange}>
                         {/* <option>--- Select City ---</option> */}
@@ -188,11 +198,32 @@ function Register() {
                     </div>
 
                     <div className="mb-2">
-                      <label htmlFor="password" className="form-label">Password</label>
-                      <input type="password" className="form-control" name="password" id="password" onChange={registerChange} />
+                      <label htmlFor="pin_code" className="form-label">Pincode</label>
+                      <input type="number" className="form-control" name="pin_code" id="pin_code" onChange={registerChange} />
                     </div>
 
-                    <div className="mb-2">
+                    {/* <div className="mb-2">
+                      <label htmlFor="password" className="form-label">Password</label>
+                      <input type="password" className="form-control" name="password" id="password" onChange={registerChange} />
+                    </div> */}
+
+                    <div className="col-12 mb-2">
+                      <label className="form-label">Dealer Category</label><br/>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="lubricant" id="Lubricant" value="Lubricant" onChange={registerChange}/>
+                        <label class="form-check-label" htmlFor="Lubricant">Lubricant</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="battery" id="Battery" value="Battery" onChange={registerChange}/>
+                        <label class="form-check-label" htmlFor="Battery">Battery</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="spare_part" id="SparePart" value="Spare Part" onChange={registerChange}/>
+                        <label class="form-check-label" htmlFor="SparePart">Spare Part</label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 mb-2">
                       <label htmlFor="reffercode" className="form-label">Reffer Code (optional)</label>
                       <input type="text" className="form-control" name="reffercode" id="reffercode" onChange={registerChange} />
                     </div>

@@ -178,7 +178,7 @@ function RaisingComplaint({ userDetails }) {
                 <span>Status : {item.c_status == 1 ? <span className="text-success">Resolved</span> : <span className="text-warning">Pending</span>}</span>
                 <hr />
                 <div className="d-flex align-items-center icon-box-4">
-                  <div className="w-100 text-center border-end" onClick={() => handleShow3(item.id)}><Icon.ReplyAll className="icon-color" /> Reply</div>
+                  {/* <div className="w-100 text-center border-end" onClick={() => handleShow3(item.id)}><Icon.ReplyAll className="icon-color" /> Reply</div> */}
                   <div className="w-100 text-center border-end" 
                     onClick={() => handleShow2(item.reason_name == 'Other' ? item.other_reason : item.reason_name, getFormattedDate(item.ddate,'day_month_year'), item.communication)}>
                       <Icon.CardText className="icon-color" /> {item.comCount}</div>
@@ -244,7 +244,8 @@ function RaisingComplaint({ userDetails }) {
             }
 
             <Modal.Footer>
-              <Button type="submit" variant="primary" className="btn-black-form" disabled={disabledButton}>Submit</Button>
+              {disabledButton == false ? <Button type="submit" variant="primary" className="btn-black-form">Submit</Button> 
+              : <Button type="submit" variant="primary" className="btn-black-form" disabled>Loading...</Button> }
             </Modal.Footer>
           </form>
         </Modal.Body>

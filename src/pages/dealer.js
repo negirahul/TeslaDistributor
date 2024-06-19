@@ -58,9 +58,12 @@ function Dealer({ userDetails }) {
 
   const [inputs, setInputs] = useState([]);
   const profileChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
+    var name = event.target.name;
+    var value = event.target.value;
     console.log(value);
+    if(name == "lubricant"){  if(!event.target.checked) value = "";   }
+    if(name == "battery"){  if(!event.target.checked) value = "";   }
+    if(name == "spare_part"){  if(!event.target.checked) value = "";   }
     setInputs(values => ({ ...values, [name]: value }));
     if (name == 'state') {
       fetchCityData(value)
@@ -79,6 +82,10 @@ function Dealer({ userDetails }) {
     if (inputs.pin_code === undefined || inputs.pin_code === '') { notify("alert", "Please Select Dealer Password"); return; }
     if (inputs.state === undefined || inputs.state === '') { notify("alert", "Please Select Dealer State"); return; }
     if (inputs.city === undefined || inputs.city === '') { notify("alert", "Please Select Dealer City"); return; }
+    if((inputs.lubricant === undefined && inputs.battery === undefined && inputs.lubricant === undefined) 
+      || (inputs.lubricant == "" && inputs.battery === "" && inputs.spare_part === "")){   
+      notify("alert","Please select atleast one category");return;  
+    }
 
     axios.post(process.env.REACT_APP_ADMIN_URL + 'addDealerByDistributor.php', { inputs, id: userDetails.id }).then(function (response) {
       console.log(response.data);
@@ -262,14 +269,7 @@ function Dealer({ userDetails }) {
               <label htmlFor="gst_no" className="form-label">GST No.</label>
               <input type="text" name="gst_no" id="gst_no" className="form-control" onInput={profileChange} />
             </div>
-            <div className="mb-2">
-              <label htmlFor="address" className="form-label">Address</label>
-              <textarea name="address" id="address" className="form-control" onInput={profileChange}></textarea>
-            </div>
-            <div className="mb-2">
-              <label htmlFor="pin_code" className="form-label">Pin Code</label>
-              <input type="text" name="pin_code" id="pin_code" className="form-control" onInput={profileChange} />
-            </div>
+            
             <div className="mb-2">
               <label htmlFor="state" className="form-label">State</label>
               <select className="form-control" name="state" id="state" onChange={profileChange}>
@@ -299,6 +299,32 @@ function Dealer({ userDetails }) {
                 )}
               </select>
             </div>
+
+            <div className="mb-2">
+              <label htmlFor="address" className="form-label">Address</label>
+              <textarea name="address" id="address" className="form-control" onInput={profileChange}></textarea>
+            </div>
+
+            <div className="mb-2">
+              <label htmlFor="pin_code" className="form-label">Pin Code</label>
+              <input type="text" name="pin_code" id="pin_code" className="form-control" onInput={profileChange} />
+            </div>
+
+            <div className="mb-2">
+              <label className="form-label">Dealer Category</label><br/>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="lubricant" id="Lubricant" value="Lubricant" onChange={profileChange}/>
+                <label class="form-check-label" htmlFor="Lubricant">Lubricant</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="battery" id="Battery" value="Battery" onChange={profileChange}/>
+                <label class="form-check-label" htmlFor="Battery">Battery</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="spare_part" id="SparePart" value="Spare Part" onChange={profileChange}/>
+                <label class="form-check-label" htmlFor="SparePart">Spare Part</label>
+              </div>
+            </div>
             <Modal.Footer>
               <Button type="submit" variant="primary" className="btn-black-form" disabled={disabledButton}>Submit</Button>
             </Modal.Footer>
@@ -321,6 +347,9 @@ function Dealer({ userDetails }) {
                 <ListGroup.Item><strong>PinCode : </strong> {infoData.pin_code}</ListGroup.Item>
                 <ListGroup.Item><strong>State : </strong> {infoData.state_name}</ListGroup.Item>
                 <ListGroup.Item><strong>City : </strong> {infoData.city_name}</ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>{infoData.user_product_group}<br/>{infoData.prefer_user == 1 ? 'Preferred Partner (LBS)' : ''}</strong>
+                </ListGroup.Item>
               </ListGroup>
               {needAction ? <button onClick={() => approveDealer(infoData.id)} className="cart-item-btn cart-item-forn w-100 mt-3">Approve</button> : ''}
             </>

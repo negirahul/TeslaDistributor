@@ -36,6 +36,7 @@ function App() {
         window.location.reload();
       }
     });
+    console.log(cookies.userId);
   }
   useEffect(() => {
     if(cookies.userId !== undefined && cookies.userId !== ''){

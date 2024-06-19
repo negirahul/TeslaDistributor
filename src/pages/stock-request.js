@@ -195,9 +195,9 @@ function StockRequest({ userDetails }) {
       <div className="container">
         <div className="mt-4">
 
-          <Tabs defaultActiveKey="home" id="uncontrolled-tab-example" className="mb-3" fill>
+          <Tabs defaultActiveKey="Requested" id="uncontrolled-tab-example" className="mb-3" fill>
 
-            <Tab eventKey="home" title="Punched Order">
+            {/* <Tab eventKey="home" title="Punched Order">
               <div className="mainbody">
                 <div className="bg-white shadow tab-body-edit">
                   { !punchDetails ? '' 
@@ -233,7 +233,7 @@ function StockRequest({ userDetails }) {
                   }
                 </div>
               </div>
-            </Tab>
+            </Tab> */}
 
             <Tab eventKey="Requested" title="Requested Order">
               <div className="mainbody">

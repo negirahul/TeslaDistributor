@@ -79,7 +79,12 @@ function Dashboard({ userDetails }) {
               <img src={process.env.REACT_APP_ADMIN_URL + 'uploads/profile-images/' + userDetails.profile_image} alt="" className="profile-img" />
               <Link className="btn btn-sm btn-light position-absolute" style={{top: '-15px',right: '15px'}} to={'../profile'}><Icon.Pencil/></Link>
             </div>
-            <div className="profile-name w-50">{userDetails.name}<span>{userDetails.company_name}</span><span>Authorized Distributor</span></div>
+            <div className="profile-name w-50">
+              {userDetails.name}<span>{userDetails.company_name}</span><span>Authorized Distributor</span>
+              <hr className="my-1"/>
+              <span>{userDetails.user_product_group}</span>
+              <span>{userDetails.prefer_user == 1 ? 'Preferred Partner (LBS)' : ''}</span>
+            </div>
             <div className="drop-btn w-25 text-end">
               {/* <Icon.ThreeDotsVertical /> */}
               <Link className="nav-Link open-link open-link-app" onClick={() => logout()}>
@@ -95,7 +100,7 @@ function Dashboard({ userDetails }) {
 
             <div className="d-flex align-items-center">
               <div className="w-25 icon-2"><Icon.Wallet /></div>
-              <div className="w-50 wallet-text">&#8377; {walletDetails.wallet}<span>Your Wallet Balance</span></div>
+              <div className="w-50 wallet-text">{walletDetails.wallet}<span>Your Wallet Points</span></div>
               <div className="drop-btn w-25 text-white"><Link className="text-white" to={'../wallet'}><Icon.ThreeDotsVertical /></Link></div>
             </div>
           </div>

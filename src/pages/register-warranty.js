@@ -175,55 +175,43 @@ function RegisterWarranty({ userDetails }) {
   const [warrantyCard, setWarrantyCard] = useState();
   const warrantyChange = (event) => {
     if(event.target.name === 'bill_copy'){
-      // let reader = new FileReader();
-      // reader.onload = function(event) {
-      //   let changeImage = event.target.result;
-      //   setBillCopy(changeImage);
-      // }
-      // reader.readAsDataURL(event.target.files[0]);
-      const image = event.target.files[0];
-      new Compressor(image, {
-        quality: 0.8, // 0.6 can also be used, but its not recommended to go below.
-        success: (compressedResult) => {
-          // compressedResult has the compressed file.
-          // Use the compressed file to upload the images to your server.        
-          // setCompressedFile(compressedResult);
-          // console.log(compressedResult);
-
-          var reader = new FileReader();
-          reader.readAsDataURL(compressedResult); 
-          reader.onloadend = function() {
-            var base64data = reader.result;          
-            setBillCopy(base64data);      
-            // console.log(base64data);
-          }
-        },
-      });
+      // const image = event.target.files[0];
+      // new Compressor(image, {
+      //   quality: 0.8, // 0.6 can also be used, but its not recommended to go below.
+      //   success: (compressedResult) => {
+      //     var reader = new FileReader();
+      //     reader.readAsDataURL(compressedResult); 
+      //     reader.onloadend = function() {
+      //       var base64data = reader.result;          
+      //       setBillCopy(base64data);      
+      //     }
+      //   },
+      // });
+      let reader = new FileReader();
+      reader.onload = function(event) {
+        let changeImage = event.target.result;
+        setBillCopy(changeImage);
+      }
+      reader.readAsDataURL(event.target.files[0]);
     }else if(event.target.name === 'warranty_card'){
-      // let reader = new FileReader();
-      // reader.onload = function(event) {
-      //   let changeImage = event.target.result;
-      //   setWarrantyCard(changeImage);
-      // }
-      // reader.readAsDataURL(event.target.files[0]);
-      const image = event.target.files[0];
-      new Compressor(image, {
-        quality: 0.8, // 0.6 can also be used, but its not recommended to go below.
-        success: (compressedResult) => {
-          // compressedResult has the compressed file.
-          // Use the compressed file to upload the images to your server.        
-          // setCompressedFile(compressedResult);
-          // console.log(compressedResult);
-
-          var reader = new FileReader();
-          reader.readAsDataURL(compressedResult); 
-          reader.onloadend = function() {
-            var base64data = reader.result;          
-            setWarrantyCard(base64data);      
-            // console.log(base64data);
-          }
-        },
-      });
+      // const image = event.target.files[0];
+      // new Compressor(image, {
+      //   quality: 0.8, // 0.6 can also be used, but its not recommended to go below.
+      //   success: (compressedResult) => {
+      //     var reader = new FileReader();
+      //     reader.readAsDataURL(compressedResult); 
+      //     reader.onloadend = function() {
+      //       var base64data = reader.result;          
+      //       setWarrantyCard(base64data);
+      //     }
+      //   },
+      // });
+      let reader = new FileReader();
+      reader.onload = function(event) {
+        let changeImage = event.target.result;
+        setWarrantyCard(changeImage);
+      }
+      reader.readAsDataURL(event.target.files[0]);
     }else{
       const name = event.target.name;
       const value = event.target.value;
@@ -666,7 +654,8 @@ function RegisterWarranty({ userDetails }) {
                       <input type="file" name="warranty_card" id="warranty_card" className="form-control" onChange={warrantyChange} accept="image/*" required/>
                     </div>
                     <Modal.Footer>
-                      <Button type="submit" variant="primary" className="btn-black-form">Submit</Button>
+                      {disabledButton == false ? <Button type="submit" variant="primary" className="btn-black-form">Submit</Button> 
+                      : <Button type="submit" variant="primary" className="btn-black-form" disabled>Loading...</Button> }
                     </Modal.Footer>
                     
                   </>

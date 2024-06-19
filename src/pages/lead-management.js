@@ -268,7 +268,7 @@ function LeadManagement({ userDetails }) {
     console.log(replyInputs);
     if(replyInputs.remark === undefined || replyInputs.remark === ''){  notify("alert","Please Enter Your Remark");return;  }
     
-    axios.post( process.env.REACT_APP_ADMIN_URL + 'leadreply.php', {leadId, replyInputs, user_id:userDetails.username}).then(function(response){
+    axios.post( process.env.REACT_APP_ADMIN_URL + 'leadreply.php', {leadId, replyInputs, user_id:userDetails.username, mobile_number:userDetails.mobile_number}).then(function(response){
       console.log(response.data);
       var data = response.data;
       if(data.statusCode === 200){
